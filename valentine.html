@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Love Story</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #d32b7f, #fd0658, #5f0031, #c000b9);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            color: white;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            transition: all 0.5s ease;
+        }
+
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        p {
+            font-size: 1.2em;
+            max-width: 600px;
+            margin: 15px auto;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 18px;
+            color: white;
+            background: linear-gradient(45deg, #f20995, #78003c);
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+        }
+
+        .heart {
+            position: fixed;
+            pointer-events: none;
+            animation: floatHeart 4s ease-in-out infinite;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .floating-text {
+            position: fixed;
+            color: rgba(255, 255, 255, 0.4);
+            pointer-events: none;
+            animation: float 8s linear infinite;
+            white-space: nowrap;
+            font-size: 24px;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+        }
+
+        .emoji {
+            position: fixed;
+            font-size: 30px;
+            pointer-events: none;
+            animation: explode 2s forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(
+                    calc(var(--x) * 300px),
+                    calc(var(--y) * 300px)
+                ) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .dancing-shinchan {
+            width: 100px;
+            height: 100px;
+            margin-top: 20px;
+            animation: dance 1s infinite;
+        }
+
+        @keyframes dance {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="page1">
+        <h1> Welcome My Love, My Kaleshi🔪🖤 </h1>
+        <img src="Kushbu.jpg" alt="My Love" width="300">
+        <p>From the moment you have stepped into my life, everything changed for the better. You bring warmth, joy, and love into every moment we share. I could never forget the cute smile of yours, those moments we have shared , our first kiss , those funny banters and kalesh we did all it felt like we are made for each other,I really really love you and will do anything to put a smile on those chubby cheeks. I am ready to give my everything to you and in return all I could ask from you to be mine always,my babyy Girl!!😘🎀🫂</p>
+        <button class="btn" onclick="nextPage(1)">Next</button>
+    </div>
+
+    <div class="container hidden" id="page2">
+        <h1>Will You Be My Valentine Babe?😗</h1>
+        <p>I guess There's no confusion about it , right? Because our love is meant to be!</p>
+        <button class="btn" onclick="nextPage(2)">Yes! Of course!</button>
+        <button class="btn" onclick="wrongChoice()">No</button>
+    </div>
+
+    <div class="container hidden" id="page3">
+        <h1>YAYYYYY! that's my Girlll ❤️</h1>
+        <img src="date.jpg" alt="My Love" width="300">
+        <p>I am Grateful to have you in my life</p>
+        <h2><p>Happy Valentine's Day, my love!🫂💕</p></h2>
+        <P> If love were a language, you’d be my favorite word. If it were a song, you’d be the sweetest melody. And if love were a journey, I’d want to walk every step with you.
+
+            You make my world brighter, my heart fuller, and my life so much sweeter. Today and always, I choose you. 
+            
+                I love you endlessly! 🖤🖤</P>
+        <img src="gif.gif" alt="Dancing Shinchan" class="dancing-shinchan">
+    </div>
+
+    <div class="container hidden" id="page4">
+        <h1>NOO BABYYY! 😭😠💔</h1>
+        <img src="img.jpg" alt="My Love" width="300">
+        <p>Come on I am giving you another chance go back ! That was the wrong answer! Think about it and try again.👀</p>
+        <button class="btn" onclick="retry()">Try Again</button>
+    </div>
+
+    <script>
+        const loveWords = ["Love ❤️", "Forever", "Together", "Soulmate", "Destiny", "Romance"];
+        const loveEmojis = ["❤️", "💖", "💝", "💕", "💓", "💗", "💞", "💘", "🌹", "✨"];
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = "❤️";
+            heart.className = 'heart';
+            heart.style.left = Math.random() * window.innerWidth + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 4000);
+        }
+
+        function createFloatingText() {
+            const text = document.createElement('div');
+            text.className = 'floating-text';
+            text.textContent = loveWords[Math.floor(Math.random() * loveWords.length)];
+            text.style.left = Math.random() * window.innerWidth + 'px';
+            document.body.appendChild(text);
+            setTimeout(() => text.remove(), 8000);
+        }
+
+        function createEmojiExplosion() {
+            for (let i = 0; i < 20; i++) {
+                const emoji = document.createElement('div');
+                emoji.className = 'emoji';
+                emoji.textContent = loveEmojis[Math.floor(Math.random() * loveEmojis.length)];
+                emoji.style.setProperty('--x', Math.random() * 2 - 1);
+                emoji.style.setProperty('--y', Math.random() * 2 - 1);
+                emoji.style.left = '50%';
+                emoji.style.top = '50%';
+                document.body.appendChild(emoji);
+                setTimeout(() => emoji.remove(), 2000);
+            }
+        }
+
+        function nextPage(page) {
+            document.getElementById('page' + page).classList.add('hidden');
+            setTimeout(() => {
+                document.getElementById('page' + (page + 1)).classList.remove('hidden');
+                if (page === 2) {
+                    createEmojiExplosion();
+                    setInterval(createEmojiExplosion, 3000);
+                }
+            }, 500);
+        }
+
+        function wrongChoice() {
+            document.getElementById('page2').classList.add('hidden');
+            setTimeout(() => {
+                document.getElementById('page4').classList.remove('hidden');
+            }, 500);
+        }
+
+        function retry() {
+            document.getElementById('page4').classList.add('hidden');
+            setTimeout(() => {
+                document.getElementById('page2').classList.remove('hidden');
+            }, 500);
+        }
+
+        // Start background animations
+        setInterval(createHeart, 1000);
+        setInterval(createFloatingText, 2000);
+    </script>
+</body>
+</html>
