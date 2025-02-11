@@ -18,12 +18,92 @@
             background-size: 400% 400%;
             animation: gradientBG 10s ease infinite;
             color: white;
+            overflow: hidden;
         }
 
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
+        }
+
+        /* Envelope Styles */
+        .envelope-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .envelope {
+            width: 300px;
+            height: 200px;
+            background: #f8f8f8;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s ease;
+        }
+
+        .envelope.open {
+            transform: rotateX(180deg);
+        }
+
+        .envelope-front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #ff5eea;
+            border: 2px solid #58081c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            backface-visibility: hidden;
+        }
+
+        .envelope-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #dd94ff;
+            border: 2px solid #000000;
+            transform: rotateX(180deg);
+            backface-visibility: hidden;
+        }
+
+        .flap {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: #e24eff;
+            clip-path: polygon(0 0, 50% 50%, 100% 0);
+            transform-origin: top;
+            transition: transform 0.5s ease;
+        }
+
+        .envelope:hover .flap {
+            transform: rotateX(180deg);
+        }
+
+        .letter {
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            background: #ffa2f3;
+            top: 5%;
+            left: 5%;
+            padding: 20px;
+            text-align: center;
+            color: #333;
+            font-size: 1.2em;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
         .container {
@@ -77,6 +157,65 @@
 
         .btn:hover {
             transform: scale(1.1);
+        }
+
+        /* New Button Styles */
+        .btn.yes-btn {
+            transition: all 0.5s ease;
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(45deg, #00ff88, #00a1ff);
+        }
+
+        .btn.no-btn {
+            transition: all 0.3s ease;
+            position: relative;
+            background: linear-gradient(45deg, #ff4444, #ff0055);
+        }
+
+        .gif-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 200px;
+            z-index: 1;
+        }
+
+        .gif-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+
+        #message-text {
+            font-size: 1.5em;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .bounce {
+            animation: bounce 0.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 1.5s infinite;
         }
 
         .heart {
@@ -153,7 +292,25 @@
     </style>
 </head>
 <body>
-    <div class="container" id="page1">
+    <!-- Envelope Container -->
+    <div class="envelope-container" id="envelope" onclick="openEnvelope()">
+        <div class="envelope">
+            <div class="envelope-front">
+                <p>Click to open<br>💌🤫</p>
+            </div>
+            <div class="flap"></div>
+            <div class="envelope-back">
+                <div class="letter">
+                    <h2>Welcome Kushbu🖤🎀</h2>
+                    <p>I have something special for you👀...</p>
+                    <h5><p>Click anywhere to continue ❤️</p></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Original Pages -->
+    <div class="container hidden" id="page1">
         <h1> Welcome My Love, My Kaleshi🔪🖤 </h1>
         <img src="Kushbu.jpg" alt="My Love" width="300">
         <p>From the moment you have stepped into my life, everything changed for the better. You bring warmth, joy, and love into every moment we share. I could never forget the cute smile of yours, those moments we have shared , our first kiss , those funny banters and kalesh we did all it felt like we are made for each other,I really really love you and will do anything to put a smile on those chubby cheeks. I am ready to give my everything to you and in return all I could ask from you to be mine always,my babyy Girl!!😘🎀🫂</p>
@@ -163,8 +320,12 @@
     <div class="container hidden" id="page2">
         <h1>Will You Be My Valentine Babe?😗</h1>
         <p>I guess There's no confusion about it , right? Because our love is meant to be!</p>
-        <button class="btn" onclick="nextPage(2)">Yes! Of course!</button>
-        <button class="btn" onclick="wrongChoice()">No</button>
+        <div id="gif-container" class="gif-container hidden">
+            <img id="reaction-gif" src="" alt="Reaction">
+        </div>
+        <p id="message-text"></p>
+        <button class="btn yes-btn" onclick="nextPage(2)">Yes! Of course!❤️</button>
+        <button class="btn no-btn" onclick="handleNo()">No😤</button>
     </div>
 
     <div class="container hidden" id="page3">
@@ -172,11 +333,11 @@
         <img src="date.jpg" alt="My Love" width="300">
         <p>I am Grateful to have you in my life</p>
         <h2><p>Happy Valentine's Day, my love!🫂💕</p></h2>
-        <P> If love were a language, you’d be my favorite word. If it were a song, you’d be the sweetest melody. And if love were a journey, I’d want to walk every step with you.
+        <P> If love were a language, you'd be my favorite word. If it were a song, you'd be the sweetest melody. And if love were a journey, I'd want to walk every step with you.
 
             You make my world brighter, my heart fuller, and my life so much sweeter. Today and always, I choose you. 
             
-                I love you endlessly! 🖤🖤</P>
+            I love you endlessly! 🖤🖤</P>
         <img src="gif.gif" alt="Dancing Shinchan" class="dancing-shinchan">
     </div>
 
@@ -188,6 +349,97 @@
     </div>
 
     <script>
+        let envelopeOpened = false;
+        let noClickCount = 0;
+        let yesButtonSize = 1;
+
+        const funnyMessages = [
+            "Are you sure? 😢",
+            "Think again! 🤔",
+            "You might regret this! 😜",
+            "Come on, say yes! 🥺",
+            "Why not? 😭",
+            "I'll be sad forever! 💔",
+            "You're breaking my heart! 💘",
+            "One more chance? 🥹",
+            "Are you playing hard to get? 😏",
+            "Oops! You missed the love train! 🚂💔",
+            "Reconsider before it's too late! 😜",
+            "Why so cold? 🥶💔",
+            "I can feel my heart breaking... 💔😭",
+            "You sure about that? 🤨",
+            "You don't want to break my heart, do you? 💔😱",
+            "I'm totally okay... NOT! 😆💔",
+            "Wait, was that a 'no'? 😢",
+            "No way! I'm heartbroken now! 😭",
+            "I'll just cry in the corner... 😢",
+            "This is so dramatic! 😂",
+            "You're leaving me hanging! 😯",
+            "You can't be serious! 😝",
+            "I see how it is... 😤",
+            "You just crushed my dreams! 😭💔",
+            "I'm too cute to say no to! 😜",
+            "You'll regret this later... 😏",
+            "I knew it... the heartbreaker! 💔",
+            "You're making me blush... with tears! 😢😳"
+        ];
+
+        
+
+        function handleNo() {
+    noClickCount++;
+    
+    if (noClickCount >= 10) {
+        // If they press "No" too many times, force "Yes" action
+        alert("You have no choice! You are my Valentine! ❤️");
+        nextPage(2);
+    } else {
+        // Change button text and show funny messages
+        document.querySelector('.no-btn').innerText = funnyMessages[noClickCount - 1] || "No 😭";
+        document.getElementById('message-text').innerText = funnyMessages[noClickCount - 1] || "No 😭";
+        
+        // Make the "Yes" button bigger each time they click "No"
+        yesButtonSize += 0.2;
+        document.querySelector('.yes-btn').style.transform = `scale(${yesButtonSize})`;
+    }
+}
+
+function handleYes() {
+    nextPage(2);
+}
+
+function nextPage(page) {
+    document.getElementById(`page${page}`).classList.add('hidden');
+    document.getElementById(`page${page + 1}`).classList.remove('hidden');
+}
+
+function retry() {
+    noClickCount = 0;
+    document.getElementById('page4').classList.add('hidden');
+    document.getElementById('page2').classList.remove('hidden');
+    document.querySelector('.no-btn').innerText = "No 😤";
+    document.getElementById('message-text').innerText = "";
+    yesButtonSize = 1;
+    document.querySelector('.yes-btn').style.transform = `scale(1)`;
+}
+
+
+        function openEnvelope() {
+            const envelope = document.querySelector('.envelope');
+            const envelopeContainer = document.getElementById('envelope');
+            
+            if (!envelopeOpened) {
+                envelope.classList.add('open');
+                envelopeOpened = true;
+            } else {
+                envelopeContainer.classList.add('hidden');
+                setTimeout(() => {
+                    document.getElementById('page1').classList.remove('hidden');
+                    startBackgroundAnimations();
+                }, 500);
+            }
+        }
+
         const loveWords = ["Love ❤️", "Forever", "Together", "Soulmate", "Destiny", "Romance"];
         const loveEmojis = ["❤️", "💖", "💝", "💕", "💓", "💗", "💞", "💘", "🌹", "✨"];
 
@@ -248,9 +500,10 @@
             }, 500);
         }
 
-        // Start background animations
-        setInterval(createHeart, 1000);
-        setInterval(createFloatingText, 2000);
+        function startBackgroundAnimations() {
+            setInterval(createHeart, 1000);
+            setInterval(createFloatingText, 2000);
+        }
     </script>
 </body>
-</html>
+</html> 
