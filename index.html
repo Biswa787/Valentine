@@ -293,6 +293,30 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-20px); }
         }
+
+        .audio-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .audio-controls:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .audio-icon {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
     </style>
 </head>
 <body>
@@ -350,6 +374,20 @@
         <img src="img.jpg" alt="My Love" width="300">
         <p>Come on I am giving you another chance go back ! That was the wrong answer! Think about it and try again.👀</p>
         <button class="btn" onclick="retry()">Try Again</button>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="song2.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Add audio control button -->
+    <div class="audio-controls" onclick="toggleMusic()">
+        <svg class="audio-icon" id="audioIcon" viewBox="0 0 24 24">
+            <path d="M12 3v18c-4.5-2-8-4-8-6V9c0-2 3.5-4 8-6z"/>
+            <path d="M14 3c4.5 2 8 4 8 6v6c0 2-3.5 4-8 6"/>
+            <path id="muteLine" d="M3 3l18 18" stroke="white" stroke-width="2" style="display: none;"/>
+        </svg>
     </div>
 
     <script>
@@ -508,6 +546,57 @@ function retry() {
             setInterval(createHeart, 1000);
             setInterval(createFloatingText, 2000);
         }
+
+        let musicPlaying = false;
+        const bgMusic = document.getElementById('bgMusic');
+        const muteLine = document.getElementById('muteLine');
+
+        function toggleMusic() {
+            if (musicPlaying) {
+                bgMusic.pause();
+                muteLine.style.display = 'block';
+            } else {
+                bgMusic.play();
+                muteLine.style.display = 'none';
+            }
+            musicPlaying = !musicPlaying;
+        }
+
+        // Modify the openEnvelope function to start music
+        function openEnvelope() {
+            const envelope = document.querySelector('.envelope');
+            const envelopeContainer = document.getElementById('envelope');
+            
+            if (!envelopeOpened) {
+                envelope.classList.add('open');
+                envelopeOpened = true;
+                // Start playing music when envelope is first opened
+                if (!musicPlaying) {
+                    bgMusic.play().catch(error => {
+                        console.log("Audio autoplay failed:", error);
+                    });
+                    musicPlaying = true;
+                }
+            } else {
+                envelopeContainer.classList.add('hidden');
+                setTimeout(() => {
+                    document.getElementById('page1').classList.remove('hidden');
+                    startBackgroundAnimations();
+                }, 500);
+            }
+        }
+
+        // Add event listener for user interaction
+        document.addEventListener('click', function() {
+            if (!musicPlaying) {
+                bgMusic.play().catch(error => {
+                    console.log("Audio autoplay failed:", error);
+                });
+                musicPlaying = true;
+            }
+        }, { once: true });
+
+    
     </script>
 </body>
 </html> 
